@@ -4,6 +4,8 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.DevTools.V93.Input;
+using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
 
 namespace MironovTestTask2
 {
@@ -26,21 +28,23 @@ namespace MironovTestTask2
         {
             // Transition to the page were tests will be made
             driver.Navigate().GoToUrl(test_url);
-            Thread.Sleep(5000);
 
             // Test case department selection
-            driver.FindElement(By.XPath($"{DropdownBlockAddress}/div[2]")).Click();
-            Thread.Sleep(500);
-            driver.FindElement(By.XPath($"{DropdownBlockAddress}/div[2]//*[text()='{department}']")).Click();
-            Thread.Sleep(500);
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10)).Until(
+                ExpectedConditions.ElementToBeClickable(By.XPath($"{DropdownBlockAddress}/div[2]"))).Click(); ;
+            
+            new WebDriverWait(driver, TimeSpan.FromSeconds(1)).Until(
+                ExpectedConditions.ElementToBeClickable(By.XPath($"{DropdownBlockAddress}/div[2]//*[text()='{department}']"))).Click(); ;
 
             // Test case language selection
-            driver.FindElement(By.XPath($"{DropdownBlockAddress}/div[3]")).Click();
-            Thread.Sleep(500);
-            driver.FindElement(By.XPath($"{DropdownBlockAddress}/div[3]//*[text()='{language}']")).Click();
-            Thread.Sleep(500);
+            new WebDriverWait(driver, TimeSpan.FromSeconds(1)).Until(
+                ExpectedConditions.ElementToBeClickable(By.XPath($"{DropdownBlockAddress}/div[3]"))).Click(); ;
+            
+            new WebDriverWait(driver, TimeSpan.FromSeconds(1)).Until(
+                ExpectedConditions.ElementToBeClickable(By.XPath($"{DropdownBlockAddress}/div[3]//*[text()='{language}']"))).Click();
 
             // Vacancies count
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
             var num = driver.FindElements(By.XPath("//*[@id='root']/div/div[1]/div/div[2]/div[2]/div/*")).Count;
 
             Assert.AreEqual(expectedNumberOfVacancies, num);
