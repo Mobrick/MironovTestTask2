@@ -19,11 +19,13 @@ namespace MironovTestTask2
         public void start_Browser()
         {
             // Google Chrome launch
+            
+            {}
             driver = new ChromeDriver();
             driver.Manage().Window.Maximize();
         }
 
-        [TestCase("Разработка продуктов", "Английский", 6)]
+        [TestCase("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ", "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ", 6)]
         public void test_search(string department, string language, int expectedNumberOfVacancies)
         {
             // Transition to the page were tests will be made
